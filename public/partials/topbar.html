@@ -1,0 +1,44 @@
+<!-- /public/partials/topbar.html -->
+<div class="topbar fixed top-0 left-0 w-full text-white px-4 py-3 z-50 shadow-lg">
+  <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
+    <!-- Logo + název + desktop navigace -->
+    <div class="flex items-center gap-4 min-w-0">
+      <div class="p-2 rounded-lg" style="background:linear-gradient(135deg, var(--acc-a), var(--acc-b))">
+        <svg width="22" height="22" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+          <line x1="10" y1="38" x2="38" y2="10" stroke="#0f172a" stroke-width="4" stroke-linecap="round" />
+          <line x1="24" y1="12" x2="24" y2="36" stroke="#0f172a" stroke-width="6" stroke-linecap="round" />
+        </svg>
+      </div>
+      <span class="font-semibold text-xl gradient-text">Anaby</span>
+
+      <!-- Desktop nav (aktivní Podhodnocené) -->
+      <nav class="nav hidden md:flex">
+        <button class="tab-button" data-tab="analyza">🔍 AI Analýza</button>
+        <button class="tab-button active" data-tab="podhodnocene">📉 Podhodnocené</button>
+      </nav>
+    </div>
+
+    <!-- Uživatelské menu -->
+    <div class="relative">
+      <button id="userMenuBtn" class="flex items-center space-x-2 px-3 py-2 rounded-lg hover:bg-[rgba(100,116,139,.12)]" aria-haspopup="true" aria-expanded="false">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.21 0 4.294.534 6.121 1.475M15 10a3 3 0 11-6 0 3 0 0 0 6 0z" />
+        </svg>
+        <span class="text-sm text-gray-300 hidden md:inline">Účet</span>
+      </button>
+      <div id="userMenu" class="hidden absolute right-0 mt-2 w-48 glass" role="menu" aria-label="Uživatelské menu">
+        <a href="#" class="block px-4 py-2 text-sm text-gray-200 hover:bg-[rgba(100,116,139,.12)]" role="menuitem">👤 Můj účet</a>
+        <a href="/index.html" id="logoutLink" class="block px-4 py-2 text-sm text-red-400 hover:bg-[rgba(100,116,139,.12)]">🚪 Odhlásit se</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile nav -->
+  <div class="md:hidden mt-2 px-2">
+    <nav class="nav justify-start gap-2 overflow-x-auto">
+      <a href="#" id="goHomeLink">🏠 Home</a>
+      <button class="tab-button" data-tab="analyza">🔍 AI Analýza</button>
+      <button class="tab-button active" data-tab="podhodnocene">📉 Podhodnocené</button>
+    </nav>
+  </div>
+</div>

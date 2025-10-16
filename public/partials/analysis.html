@@ -1,0 +1,106 @@
+<!-- /public/partials/analysis.html -->
+
+<!-- Header stránky AI Analýza -->
+<div class="page-header justify-center">
+  <h2 class="page-title">🔍 <span class="gradient-text">AI Analýza</span></h2>
+</div>
+
+<!-- Header analýzy: Zpět + vybraný symbol -->
+<div class="analysis-shell">
+  <div class="analysis-header">
+    <!-- tlačítko Zpět (viditelné až po výběru symbolu) -->
+    <button id="aiBack" class="back-btn hidden" data-action="analysis-back" type="button">← Zpět</button>
+    <!-- chip s vybraným symbolem -->
+    <div id="aiSymbolChip" class="symbol-chip hidden">—</div>
+  </div>
+</div>
+
+<!-- Empty state (výchozí obrazovka) -->
+<div id="ai-empty" class="ai-empty">
+  <h3 class="text-xl font-semibold mb-2">Vyberte akcii z přehledu „Podhodnocené“</h3>
+  <p class="text-gray-300 mb-3">
+    Klikněte na libovolný řádek v seznamu. Nebo otevřete přímý odkaz ve tvaru
+    <code>?symbol=AAPL</code>.
+  </p>
+  <div>
+    <span class="text-sm text-gray-400">Rychlé volby</span>
+    <div id="aiQuickPicks" class="quick-chips"></div>
+  </div>
+</div>
+
+<!-- Analytický obsah (zobrazí se po výběru symbolu) -->
+<div id="ai-widget" class="analysis-shell analysis-card glass" style="display:none;">
+  <!-- loader -->
+  <div id="loader" style="text-align:center; margin-bottom:8px; display:none;">🔄 Načítání dat…</div>
+
+  <!-- obsah -->
+  <div id="infoContainer" style="display:none;">
+    <!-- název titulu -->
+    <div class="text-center mb-2 font-extrabold tracking-tight text-3xl" id="nadpis_komodita">–</div>
+
+    <div class="analysis-grid">
+      <!-- Graf -->
+      <div class="glass-sub chart-card">
+        <div id="chart"></div>
+        <div class="chart-disclaimer" id="chartDisclaimer">
+          ⚠️ Ceny v grafu a metrikách mohou být z různých zdrojů a nemusí se shodovat (různé burzy/instrumenty).
+        </div>
+      </div>
+
+      <!-- Pravý panel s metrikami -->
+      <div class="meta-grid">
+        <div class="glass-sub metric-card">
+          <div class="metric-label">Cena</div>
+          <div class="metric-value" id="cena_komodity">–</div>
+          <div class="pill-box" id="lastPriceNote">Poslední známá cena: —</div>
+        </div>
+
+        <div class="glass-sub metric-card">
+          <div class="metric-label">Změna 1D</div>
+          <div class="metric-value" id="zmena_den">–</div>
+          <div class="pill-box">Informační údaj – bez záruky přesnosti v reálném čase.</div>
+        </div>
+
+        <div class="glass-sub metric-card" style="text-align:center">
+          <div class="metric-label">Riziko</div>
+          <div id="rizikovost" class="badge">–</div>
+          <div id="riskDetails" class="pill-box"></div>
+        </div>
+
+        <div class="glass-sub metric-card" style="text-align:center">
+          <div class="metric-label">AI skóre</div>
+          <div id="investureRatingBox" class="rating-box">—</div>
+          <div class="pill-box">AI skóre je odhad na základě dostupných dat, která mohou být zpožděná.</div>
+        </div>
+
+        <div class="glass-sub metric-card" style="grid-column:1/-1; text-align:center">
+          <div id="nadhodnocenost" class="status">V NORMÁLU</div>
+          <div id="valueDetails" class="pill-box"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Spodní část: pros/cons vedle sebe, komentář pod nimi -->
+    <div class="bottom-grid">
+      <div id="prosConsContainer" class="glass-sub panel pros" style="display:none">
+        <div class="pc-head ok"><span class="ico">✓</span> Výhody</div>
+        <ul id="prosList" class="pc-list"></ul>
+      </div>
+
+      <div id="consContainer" class="glass-sub panel cons" style="display:none">
+        <div class="pc-head bad"><span class="ico">✕</span> Nevýhody</div>
+        <ul id="consList" class="pc-list"></ul>
+      </div>
+
+      <div id="newsContainer" class="glass-sub panel news" style="display:none">
+        <div class="news-title">✨ AI komentář ✨</div>
+        <pre id="newsList">Analyzuji...</pre>
+      </div>
+    </div>
+
+    <div class="global-disclaimer" id="globalDisclaimer">
+      Data poskytují třetí strany; zobrazené informace jsou pouze informační a mohou být opožděné.
+      Nejde o investiční doporučení.
+    </div>
+  </div>
+</div>

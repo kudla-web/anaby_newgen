@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Anaby | Přístup</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --text:#e6e9ef;
+      --muted:#9aa4b2;
+      --brand:#3b82f6;
+      --brand-700:#2563eb;
+      --error:#f9564f;
+      --ok:#22c55e;
+      --card:rgba(255,255,255,0.05);
+      --ring:0 0 0 3px rgba(59,130,246,.35);
+      --radius:16px;
+      --gap:14px;
+
+      /* Cookie theme */
+      --cookie-bg:#0f1a2b;           /* tmavě modrá */
+      --cookie-panel:#0b1320;
+      --cookie-border:rgba(255,255,255,.08);
+      --cookie-text:#e6e9ef;
+      --cookie-muted:#a8b3c7;
+      --cookie-accent:#3b82f6;
+      --cookie-accent-700:#2563eb;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--text);
+      background: url('/aibg.png') no-repeat center center fixed, linear-gradient(to right, #0d1117, #161b22);
+      background-size: cover;
+      display:grid;
+      place-items:center;
+      padding:20px;
+    }
+
+    /* Top loading bar */
+    .topbar{
+      position:fixed; inset:0 0 auto 0; height:3px; background:transparent; z-index:50; overflow:hidden;
+      opacity:0; transition:.15s ease;
+    }
+    body.is-loading .topbar{opacity:1}
+    .topbar::after{
+      content:""; position:absolute; inset:0; width:40%;
+      background:linear-gradient(90deg, transparent, #8ab4ff, transparent);
+      animation:slide 1s linear infinite;
+    }
+    @keyframes slide{0%{transform:translateX(-100%)}100%{transform:translateX(250%)}}
+
+    .center{ width:min(480px, 100%); }
+    .brand{ text-align:center; margin-bottom:16px; font-size: larger;}
+    .brand h1{ margin:0 0 4px 0; font-size:48px; }
+    .brand p{ margin:0; color:var(--muted); }
+
+    .auth-container{
+      width:100%;
+      background:var(--card);
+      padding: 32px;
+      border-radius:var(--radius);
+      border:1px solid rgba(255,255,255,0.08);
+      box-shadow:0 10px 30px rgba(0,0,0,.45);
+      backdrop-filter: blur(12px) saturate(120%);
+    }
+
+    .switch-buttons{ display:flex; gap:12px; margin-bottom:16px; }
+    .switch-buttons button{
+      flex:1; padding:10px 14px; font-weight:600;
+      border-radius:12px; cursor:pointer; border:1px solid rgba(255,255,255,.08);
+      background:#1f2937; color:#fff; transition: .2s ease;
+    }
+    .switch-buttons button:hover{ background:#222f43 }
+    .switch-buttons button.active{ border-color:var(--brand); box-shadow:0 6px 16px rgba(59,130,246,.25) inset; background:rgba(59,130,246,.16) }
+
+    form{ display:grid; gap:var(--gap); }
+    .field{ display:grid; gap:6px; }
+    label{ font-size:12px; color:var(--muted); }
+    input{
+      width:100%; padding: 14px 16px;
+      font-size: 16px; border-radius:10px;
+      background:#1e242d; color:#fff; border:1px solid rgba(255,255,255,.08); outline:none; transition:.15s ease;
+    }
+    input::placeholder{ color:#8b95a7 }
+    input:focus{ border-color:var(--brand); box-shadow:var(--ring); }
+
+    .control{ position:relative; }
+    .showpass{
+      position:absolute; top:50%; right:10px; transform:translateY(-50%);
+      border:none; background:transparent; color:#c7d2fe; cursor:pointer; font-size:12px;
+    }
+
+    button.submit{
+      width:100%; padding: 14px 16px;
+      font-size: 16px; border:none; border-radius:10px;
+      background:var(--brand); color:#fff; font-weight:700; cursor:pointer; transition:.15s ease;
+      display:flex; align-items:center; justify-content:center; gap:8px;
+    }
+    button.submit:hover{ background:var(--brand-700); }
+    button.submit:disabled{ opacity:.6; cursor:not-allowed; }
+
+    .submit .spin{
+      width:16px; height:16px; border-radius:50%;
+      border:2px solid rgba(255,255,255,.45); border-top-color:#fff;
+      display:none; animation:rot .8s linear infinite;
+    }
+    @keyframes rot{to{transform:rotate(360deg)}}
+    .submit.loading .spin{ display:inline-block; }
+    .submit.loading .btntext{ opacity:.85; }
+
+    .msg{ min-height:18px; font-size:13px; color:var(--error); }
+    .hidden{ display:none !important; }
+
+    /* Error shake */
+    .shake{animation:shake .3s linear}
+    @keyframes shake{ 0%,100%{transform:translateX(0)} 25%{transform:translateX(-6px)} 75%{transform:translateX(6px)} }
+
+    /* Consent row (existing) */
+    .consent{
+      display:flex; gap:10px; align-items:flex-start; font-size:13px; color:var(--muted);
+      line-height:1.4; margin-top:2px;
+    }
+    .consent input{ width:auto; margin-top:2px; }
+    .fineprint{
+      font-size:12px; color:var(--muted); text-align:center; margin-top:8px;
+    }
+    .fineprint a, .consent a{ color:#9bbcff; text-decoration:underline; }
+
+    /* ============================= */
+    /* Cookie Consent UI (banner + modal) */
+    /* ============================= */
+
+    .cc-banner{
+      position:fixed; left:16px; right:16px; bottom:16px; z-index:60;
+      background:var(--cookie-bg); color:var(--cookie-text);
+      border:1px solid var(--cookie-border); border-radius:14px;
+      box-shadow:0 20px 40px rgba(0,0,0,.45);
+      display:none; /* default hidden, shown by JS if not set */
+    }
+    .cc-inner{ display:flex; gap:16px; padding:16px; align-items:flex-start; }
+    .cc-text{ flex:1; font-size:14px; line-height:1.5; color:var(--cookie-text); }
+    .cc-text a{ color:#9bbcff; text-decoration:underline; }
+    .cc-actions{ display:flex; flex-wrap:wrap; gap:10px; }
+    .cc-actions button{
+      padding:10px 14px; border-radius:10px; border:1px solid var(--cookie-border);
+      background:#122037; color:#fff; cursor:pointer; font-weight:600;
+    }
+    .cc-actions .cc-accept{ background:var(--cookie-accent); border-color:transparent; }
+    .cc-actions .cc-accept:hover{ background:var(--cookie-accent-700); }
+    .cc-actions .cc-reject{ background:#1a2740; }
+    .cc-actions .cc-settings{ background:transparent; }
+
+    /* Modal */
+    .cc-backdrop{
+      position:fixed; inset:0; background:rgba(0,0,0,.55); z-index:70; display:none;
+      align-items:center; justify-content:center; padding:20px;
+    }
+    .cc-modal{
+      width:min(700px,100%); background:var(--cookie-panel); color:var(--cookie-text);
+      border:1px solid var(--cookie-border); border-radius:16px; padding:20px;
+      box-shadow:0 20px 50px rgba(0,0,0,.6);
+    }
+    .cc-modal h3{ margin:0 0 8px 0; font-size:20px; }
+    .cc-modal p{ margin:0 0 14px 0; color:var(--cookie-muted); }
+    .cc-cats{ display:grid; gap:10px; margin:14px 0; }
+    .cc-cat{
+      display:flex; justify-content:space-between; align-items:center;
+      border:1px solid var(--cookie-border); border-radius:12px; padding:12px 14px; background:#0e1830;
+    }
+    .cc-cat .meta{ max-width:75%; }
+    .cc-cat h4{ margin:0 0 4px; font-size:15px; }
+    .cc-cat p{ margin:0; font-size:13px; color:var(--cookie-muted); }
+    .cc-toggle input{ width:42px; height:22px; }
+    .cc-footer{ display:flex; gap:10px; justify-content:flex-end; margin-top:14px; }
+    .cc-footer button{ padding:10px 14px; border-radius:10px; border:1px solid var(--cookie-border); background:#122037; color:#fff; font-weight:600; }
+    .cc-footer .save{ background:var(--cookie-accent); border-color:transparent; }
+    .cc-footer .save:hover{ background:var(--cookie-accent-700); }
+
+    /* Reopen button */
+    .cc-manage{
+      position:fixed; left:16px; bottom:16px; z-index:40;
+      background:#0e1830; color:#d3def5; border:1px solid var(--cookie-border);
+      padding:8px 10px; border-radius:10px; font-size:12px; display:none;
+      cursor:pointer;
+    }
+
+    @media (max-width:640px){
+      .cc-inner{ flex-direction:column; }
+      .cc-actions{ justify-content:flex-end; }
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar" aria-hidden="true"></div>
+
+  <div class="center">
+    <div class="brand">
+      <h1>Anaby</h1>
+      <p>AI analýza a tipy pro lepší investice</p>
+    </div>
+
+    <div class="auth-container">
+      <div class="switch-buttons">
+        <button id="btn-login"  type="button">🔐 Přihlásit se</button>
+        <button id="btn-activate" type="button" class="active">🆕 Registrace</button>
+      </div>
+
+      <!-- Login -->
+      <form id="login-form" autocomplete="on" class="hidden">
+        <div class="field">
+          <label for="login-email">E-mail</label>
+          <div class="control">
+            <input id="login-email" name="email" type="email" placeholder="tvůj e-mail" required />
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="login-pass">Heslo</label>
+          <div class="control">
+            <input id="login-pass" name="password" type="password" placeholder="tvoje heslo" required />
+            <button type="button" class="showpass" data-target="login-pass">ukázat</button>
+          </div>
+        </div>
+
+        <div class="msg" id="login-message" role="status" aria-live="polite"></div>
+
+        <button type="submit" class="submit" id="login-submit">
+          <span class="spin"></span><span class="btntext">Přihlásit se</span>
+        </button>
+
+        <p class="fineprint">
+          Pokračováním vyjadřuješ souhlas s
+          <a href="/legal.html#tab-tos" target="_blank" rel="noopener">Obchodními podmínkami</a>
+          a
+          <a href="/legal.html#tab-privacy" target="_blank" rel="noopener">Zásadami ochrany osobních údajů</a>.
+        </p>
+      </form>
+
+      <!-- Activate (registrace) -->
+      <form id="activate-form" autocomplete="on">
+        <div class="field">
+          <label for="key">Přístupový klíč</label>
+          <div class="control">
+            <input id="key" name="key" type="text" placeholder="zadej klíč" required />
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="act-email">E-mail</label>
+          <div class="control">
+            <input id="act-email" name="email" type="email" placeholder="tvůj e-mail" required />
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="act-pass">Zvol si heslo</label>
+          <div class="control">
+            <input id="act-pass" name="password" type="password" placeholder="min. 8 znaků" minlength="8" required />
+            <button type="button" class="showpass" data-target="act-pass">ukázat</button>
+          </div>
+        </div>
+
+        <!-- POVINNÝ souhlas -->
+        <div class="consent">
+          <input type="checkbox" id="consent" required />
+          <label for="consent">
+            Souhlasím s <a href="/legal.html#tab-tos" target="_blank" rel="noopener">Obchodními podmínkami</a>
+            a se <a href="/legal.html#tab-privacy" target="_blank" rel="noopener">Zásadami ochrany osobních údajů</a>.
+            Beru na vědomí, že výstupy jsou pouze informativní a nejde o investiční poradenství.
+          </label>
+        </div>
+
+        <div class="msg" id="activate-message" role="status" aria-live="polite"></div>
+
+        <button type="submit" class="submit" id="activate-submit" disabled>
+          <span class="spin"></span><span class="btntext">Aktivovat účet</span>
+        </button>
+
+        <p class="fineprint">
+          Informativní nástroj. Data mohou být nepřesná nebo neaktuální. Beta verze.
+          Pro nahlášení chyb: <a href="mailto:team.investure@gmail.com">team.investure@gmail.com</a>.
+        </p>
+      </form>
+    </div>
+  </div>
+
+  <!-- ============================= -->
+  <!-- Cookie Consent Banner -->
+  <!-- ============================= -->
+  <div class="cc-banner" id="cc-banner" role="dialog" aria-live="polite" aria-label="Souhlas s cookies">
+    <div class="cc-inner">
+      <div class="cc-text">
+        Používáme soubory cookies pro správné fungování webu a vylepšení služeb. 
+        Nezbytné cookies běží vždy, ostatní si můžeš nastavit. Více v
+        <a href="/legal.html#tab-privacy" target="_blank" rel="noopener">Zásadách ochrany osobních údajů</a>.
+      </div>
+      <div class="cc-actions">
+        <button class="cc-reject" id="cc-reject">Odmítnout nepodstatné</button>
+        <button class="cc-settings" id="cc-open">Nastavení</button>
+        <button class="cc-accept" id="cc-accept">Přijmout vše</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Re-open manager -->
+  <button class="cc-manage" id="cc-manage" aria-label="Spravovat cookies">Spravovat cookies</button>
+
+  <!-- Settings modal -->
+  <div class="cc-backdrop" id="cc-backdrop" aria-hidden="true">
+    <div class="cc-modal" role="dialog" aria-modal="true" aria-label="Nastavení cookies">
+      <h3>Nastavení cookies</h3>
+      <p>Zvol si, které kategorie kromě nezbytných můžeme používat.</p>
+      <div class="cc-cats">
+        <div class="cc-cat" aria-describedby="desc-necessary">
+          <div class="meta">
+            <h4>Nezbytné</h4>
+            <p id="desc-necessary">Potřebné pro správné fungování webu. Vždy aktivní.</p>
+          </div>
+          <div class="cc-toggle">
+            <input type="checkbox" checked disabled aria-label="Nezbytné cookies" />
+          </div>
+        </div>
+        <div class="cc-cat" aria-describedby="desc-analytics">
+          <div class="meta">
+            <h4>Analytické</h4>
+            <p id="desc-analytics">Pomáhají nám porozumět použití webu (např. agregované statistiky).</p>
+          </div>
+          <div class="cc-toggle">
+            <input type="checkbox" id="cc-cat-analytics" aria-label="Analytické cookies" />
+          </div>
+        </div>
+        <div class="cc-cat" aria-describedby="desc-marketing">
+          <div class="meta">
+            <h4>Marketingové</h4>
+            <p id="desc-marketing">Personalizace a měření kampaní.</p>
+          </div>
+          <div class="cc-toggle">
+            <input type="checkbox" id="cc-cat-marketing" aria-label="Marketingové cookies" />
+          </div>
+        </div>
+      </div>
+      <div class="cc-footer">
+        <button class="cancel" id="cc-close">Zrušit</button>
+        <button class="save" id="cc-save">Uložit volby</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const $ = (s, p=document) => p.querySelector(s);
+    const $$ = (s, p=document) => [...p.querySelectorAll(s)];
+
+    // tab switching
+    const btnLogin = $('#btn-login');
+    const btnAct = $('#btn-activate');
+    const loginForm = $('#login-form');
+    const actForm = $('#activate-form');
+
+    btnLogin.addEventListener('click', () => {
+      btnLogin.classList.add('active'); btnAct.classList.remove('active');
+      loginForm.classList.remove('hidden'); actForm.classList.add('hidden');
+      $('#login-email').focus();
+    });
+    btnAct.addEventListener('click', () => {
+      btnAct.classList.add('active'); btnLogin.classList.remove('active');
+      actForm.classList.remove('hidden'); loginForm.classList.add('hidden');
+      $('#key').focus();
+    });
+
+    // show password toggles
+    $$('.showpass').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const target = document.getElementById(btn.dataset.target);
+        const isPass = target.type === 'password';
+        target.type = isPass ? 'text' : 'password';
+        btn.textContent = isPass ? 'skrýt' : 'ukázat';
+      });
+    });
+
+    function setLoading(form, btn, loading=true){
+      document.body.classList.toggle('is-loading', loading);
+      btn.classList.toggle('loading', loading);
+      btn.disabled = loading || (btn.id === 'activate-submit' && !$('#consent').checked);
+      form.querySelectorAll('input,button.showpass').forEach(el => el.disabled = loading);
+      if(btn.id === 'activate-submit'){ $('#consent').disabled = loading; }
+    }
+    function shake(el){ el.classList.remove('shake'); void el.offsetWidth; el.classList.add('shake'); }
+
+    // Enable/disable submit by consent
+    const consent = $('#consent');
+    const actBtn = $('#activate-submit');
+    consent.addEventListener('change', () => {
+      actBtn.disabled = !consent.checked;
+    });
+
+    // helper to extract session id from possible server responses
+    function extractSessionId(result){
+      // prefer data.id (as per backend), but accept other shapes
+      if(!result) return null;
+      if(result.data && (result.data.id || result.data.sessionID || result.data.SessionID)) return result.data.id || result.data.sessionID || result.data.SessionID;
+      if(result.sessionID || result.sessionId || result.SessionID) return result.sessionID || result.sessionId || result.SessionID;
+      if(result.id) return result.id;
+      return null;
+    }
+
+    // login submit
+    const loginBtn = $('#login-submit');
+    const loginMsg = $('#login-message');
+    loginForm.addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      loginMsg.textContent = '';
+      setLoading(loginForm, loginBtn, true);
+
+      const email = loginForm.email.value.trim();
+      const password = loginForm.password.value;
+
+      try{
+        const response = await fetch('https://primary-production-e1615.up.railway.app/webhook/login', {
+          method:'POST',
+          headers:{'Content-Type':'application/json'},
+          body:JSON.stringify({ email, password })
+        });
+        const result = await response.json().catch(()=>({}));
+
+        // try to extract session id (primárně data.id)
+        const sessionId = extractSessionId(result);
+
+        if(response.ok && sessionId){
+          // uložíme do localStorage přesně jako "sessionID" (požadavek)
+          try {
+            localStorage.setItem('sessionID', String(sessionId));
+          } catch(e) {
+            console.warn('Nelze uložit sessionID do localStorage:', e);
+          }
+
+          loginMsg.style.color = 'var(--ok)';
+          loginMsg.textContent = 'Přihlášeno… přesměrovávám';
+          // ponechávám redirect s query paramem kvůli kompatibilitě s tvým homepage (můžeš to vyhodit)
+          window.location.href = `/homepage.html?sessionID=${encodeURIComponent(sessionId)}`;
+        }else{
+          loginMsg.style.color = 'var(--error)';
+          loginMsg.textContent = result.message || 'Špatný e-mail nebo heslo.';
+          shake(loginForm);
+        }
+      }catch(err){
+        loginMsg.style.color = 'var(--error)';
+        loginMsg.textContent = 'Nepodařilo se spojit se serverem. Zkus to prosím znovu.';
+        shake(loginForm);
+      }finally{
+        setLoading(loginForm, loginBtn, false);
+      }
+    });
+
+    // activation → webhook /webhook/auth with { key, email, password }
+    const actMsg = $('#activate-message');
+    actForm.addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      actMsg.textContent = '';
+
+      if(!consent.checked){
+        actMsg.style.color = 'var(--error)';
+        actMsg.textContent = 'Pro aktivaci je nutný souhlas s podmínkami.';
+        shake(actForm);
+        return;
+      }
+
+      setLoading(actForm, actBtn, true);
+
+      const key = actForm.key.value.trim();
+      const email = actForm.email.value.trim();
+      const password = actForm.password.value;
+
+      try{
+        const response = await fetch('https://primary-production-e1615.up.railway.app/webhook/auth', {
+          method:'POST',
+          headers:{'Content-Type':'application/json'},
+          body: JSON.stringify({ key, email, password })
+        });
+
+        const result = await response.json().catch(()=>({}));
+
+        const sessionId = extractSessionId(result);
+
+        if(response.ok && sessionId){
+          try {
+            localStorage.setItem('sessionID', String(sessionId));
+          } catch(e) {
+            console.warn('Nelze uložit sessionID do localStorage:', e);
+          }
+
+          actMsg.style.color = 'var(--ok)';
+          actMsg.textContent = 'Účet aktivován… přihlašuji';
+          window.location.href = `/homepage.html?sessionID=${encodeURIComponent(sessionId)}`;
+        }else{
+          actMsg.style.color = 'var(--error)';
+          actMsg.textContent = result.message || 'Aktivace selhala. Zkontroluj klíč nebo e-mail.';
+          shake(actForm);
+        }
+      }catch(err){
+        actMsg.style.color = 'var(--error)';
+        actMsg.textContent = 'Nepodařilo se spojit se serverem. Zkus to prosím znovu.';
+        shake(actForm);
+      }finally{
+        setLoading(actForm, actBtn, false);
+      }
+    });
+
+    /* ============================= */
+    /* Cookie Consent Logic (simple CMP-like) */
+    /* ============================= */
+    const CC_STORAGE_KEY = 'cc_prefs_v1';
+    const ccBanner = $('#cc-banner');
+    const ccManage = $('#cc-manage');
+    const ccBackdrop = $('#cc-backdrop');
+    const chkAnalytics = $('#cc-cat-analytics');
+    const chkMarketing = $('#cc-cat-marketing');
+
+    function getPrefs(){
+      try { return JSON.parse(localStorage.getItem(CC_STORAGE_KEY) || '{}'); }
+      catch(e){ return {}; }
+    }
+    function savePrefs(prefs){
+      localStorage.setItem(CC_STORAGE_KEY, JSON.stringify({
+        ...prefs,
+        ts: Date.now(),
+        version: 1
+      }));
+    }
+    function hasDecision(){
+      const p = getPrefs();
+      return typeof p.necessary === 'boolean';
+    }
+
+    function applyPrefs(){
+      const prefs = getPrefs();
+      // Example: run deferred scripts by category
+      $$('script[type="text/plain"][data-cookiecategory]').forEach(tag => {
+        const cat = tag.dataset.cookiecategory;
+        if(cat === 'analytics' && prefs.analytics ||
+           cat === 'marketing' && prefs.marketing){
+          const s = document.createElement('script');
+          s.text = tag.text;
+          // carry attrs except type/data-cookiecategory
+          [...tag.attributes].forEach(a=>{
+            if(a.name!=='type' && a.name!=='data-cookiecategory') s.setAttribute(a.name, a.value);
+          });
+          s.type = 'text/javascript';
+          tag.replaceWith(s);
+        }
+      });
+    }
+
+    function openSettings(){
+      ccBackdrop.style.display = 'flex';
+      const p = getPrefs();
+      chkAnalytics.checked = !!p.analytics;
+      chkMarketing.checked = !!p.marketing;
+    }
+    function closeSettings(){ ccBackdrop.style.display = 'none'; }
+
+    // Buttons
+    $('#cc-accept').addEventListener('click', ()=>{
+      savePrefs({ necessary:true, analytics:true, marketing:true });
+      ccBanner.style.display='none';
+      ccManage.style.display='block';
+      applyPrefs();
+    });
+    $('#cc-reject').addEventListener('click', ()=>{
+      savePrefs({ necessary:true, analytics:false, marketing:false });
+      ccBanner.style.display='none';
+      ccManage.style.display='block';
+      applyPrefs();
+    });
+    $('#cc-open').addEventListener('click', openSettings);
+    $('#cc-close').addEventListener('click', closeSettings);
+    $('#cc-save').addEventListener('click', ()=>{
+      savePrefs({ necessary:true, analytics:chkAnalytics.checked, marketing:chkMarketing.checked });
+      ccBanner.style.display='none';
+      ccManage.style.display='block';
+      closeSettings();
+      applyPrefs();
+    });
+    ccManage.addEventListener('click', openSettings);
+
+    // Init
+    (function initCC(){
+      if(!hasDecision()){
+        ccBanner.style.display='block';
+        ccManage.style.display='none';
+      }else{
+        ccBanner.style.display='none';
+        ccManage.style.display='block';
+        applyPrefs();
+      }
+    })();
+
+    // Expose small helper for other scripts if needed
+    window.cookieConsent = {
+      get: getPrefs,
+      onReady: (cb)=>document.addEventListener('DOMContentLoaded', ()=>cb(getPrefs()))
+    };
+  </script>
+
+  <!-- ============================= -->
+  <!-- Example of deferred script (analytics) – replace with your GA/Pixel -->
+  <!--
+  <script type="text/plain" data-cookiecategory="analytics">
+    console.log('Analytics init only after consent');
+  </script>
+  -->
+  <!-- ============================= -->
+
+</body>
+</html>

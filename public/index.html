@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Anaby - AI pohled na trhy</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root { --bg:#0b1120; --txt:#e5e7eb; --muted:#94a3b8; --g1:#38bdf8; --g2:#818cf8; }
+    *{ box-sizing:border-box }
+    html,body{ height:100% }
+    body{
+      margin:0; font-family:'Inter',system-ui,Segoe UI,Roboto,Arial,sans-serif;
+      color:var(--txt); background:var(--bg);
+      display:flex; flex-direction:column; min-height:100svh;
+    }
+    .container{ max-width:1100px; margin:0 auto; padding:0 24px }
+    .bg{ position:fixed; inset:0; pointer-events:none; z-index:-1 }
+    .bg::before, .bg::after{
+      content:""; position:absolute; inset:-20% -10% -10% -10%; filter:blur(40px); opacity:.28
+    }
+    .bg::before{
+      background:
+        radial-gradient(60vmax 40vmax at 15% 65%, rgba(56,189,248,.25) 0%, rgba(56,189,248,0) 60%),
+        radial-gradient(55vmax 35vmax at 80% 25%, rgba(129,140,248,.35) 0%, rgba(129,140,248,0) 62%);
+    }
+    .bg::after{
+      background: radial-gradient(90vmax 45vmax at 50% -10%, rgba(56,189,248,.35) 0%, rgba(56,189,248,0) 55%);
+    }
+    .grid{
+      position:absolute; inset:0; opacity:.12; mix-blend-mode:overlay;
+      background-image:
+        linear-gradient(rgba(255,255,255,.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.06) 1px, transparent 1px);
+      background-size:28px 28px;
+    }
+    .vignette{ position:absolute; inset:0;
+      background:radial-gradient(80vmax 80vmax at 50% 30%, rgba(0,0,0,0) 0%, rgba(0,0,0,.4) 65%, rgba(0,0,0,.65) 100%)
+    }
+    .noise{
+      position:absolute; inset:0; opacity:.06; mix-blend-mode:soft-light;
+      background-image:url("data:image/svg+xml;utf8,\
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'>\
+<filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter>\
+<rect width='100' height='100' filter='url(%23n)'/></svg>");
+      background-size:300px 300px;
+    }
+    header{ padding:22px 0 }
+    .logo{ display:flex; align-items:center; gap:12px; font-weight:800 }
+    .logo-badge{
+      width:40px; height:40px; border-radius:12px; display:grid; place-items:center;
+      background:linear-gradient(135deg,var(--g1),var(--g2));
+      box-shadow:0 0 18px rgba(56,189,248,.45);
+    }
+    .brand .grad{ background:linear-gradient(90deg,var(--g1),var(--g2));
+      -webkit-background-clip:text; background-clip:text; color:transparent }
+    .hero{ display:grid; place-items:center; text-align:center; padding:10vh 0 6vh; flex:1 }
+    .headline{ margin:0 0 16px; font-weight:800; letter-spacing:-.02em;
+      font-size:clamp(34px,7.6vw,72px); line-height:1.06; }
+    .hl-grad{ background:linear-gradient(90deg,var(--g1),var(--g2));
+      -webkit-background-clip:text; background-clip:text; color:transparent }
+    .sub{ margin:0 auto 32px; color:var(--muted); max-width:720px;
+      font-size:clamp(14px,2.6vw,18px); line-height:1.55 }
+    .cta{ display:flex; justify-content:center }
+    .btn{
+      --h:66px; appearance:none; border:0; cursor:pointer; outline:0; font-weight:800;
+      padding:0 32px; height:var(--h); min-width:min(560px,94vw);
+      border-radius:16px; background:linear-gradient(90deg,var(--g1),var(--g2));
+      color:#06121f; box-shadow:0 18px 60px rgba(56,189,248,.35), inset 0 -2px 0 rgba(0,0,0,.15);
+      font-size:clamp(16px,3.8vw,20px); transition:transform .12s ease;
+    }
+    .btn:hover{ transform:translateY(-2px) }
+    .btn:active{ transform:translateY(0) scale(.99) }
+    .micro{ margin-top:14px; font-size:12px; color:var(--muted) }
+    .footer{ padding:20px 0 24px; text-align:center; color:var(--muted); font-size:12px }
+    @media(max-width:640px){
+      .hero{ padding:12vh 0 7vh }
+      .btn{ min-width:92vw; height:64px }
+      .footer{ padding-bottom:calc(24px + env(safe-area-inset-bottom)) }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg" aria-hidden="true"><div class="grid"></div><div class="vignette"></div><div class="noise"></div></div>
+
+  <header>
+    <div class="container">
+      <div class="logo">
+        <div class="logo-badge">📈</div>
+        <div class="brand">ANABY.<span class="grad">AI</span></div>
+      </div>
+    </div>
+  </header>
+
+  <main class="hero">
+    <div class="container">
+      <h1 class="headline">Objevuj <span class="hl-grad">akciové vhledy</span> s pomocí AI</h1>
+      <p class="sub">Každý den přehledná analýza dat a jasně srozumitelné insighty. Bez šumu, bez zbytečných řečí.</p>
+      <div class="cta">
+        <button id="cta" class="btn">Odemknout přístup →</button>
+      </div>
+      <div class="micro">Žádné spamy. Můžeš kdykoliv odejít.</div>
+    </div>
+  </main>
+
+  <div class="footer container">
+    Anaby je edukační nástroj. Nejedná se o investiční poradenství. Minulá výkonnost není zárukou budoucích výsledků.
+  </div>
+
+  <script>
+    // === KONFIG ===
+    const SESSION_WEBHOOK = 'https://primary-production-e1615.up.railway.app/webhook/validate-session';
+    const TIMEOUT_MS = 5000; // max čekání, pokud webhook "neodpoví" schválně
+
+    const ctaBtn = document.getElementById('cta');
+
+    function fetchWithTimeout(resource, options = {}) {
+      const controller = new AbortController();
+      const id = setTimeout(() => controller.abort(), TIMEOUT_MS);
+      return fetch(resource, { ...options, signal: controller.signal })
+        .finally(() => clearTimeout(id));
+    }
+
+    async function checkSessionAndRoute(){
+      const originalText = ctaBtn.textContent;
+      ctaBtn.disabled = true;
+      ctaBtn.textContent = 'Kontroluji přístup…';
+
+      try{
+        const stored = localStorage.getItem('sessionID');
+
+        // Není nic v localStorage → rovnou login
+        if(!stored){
+          window.location.href = 'anaby_auth_ui.html';
+          return;
+        }
+
+        // Webhook: úspěch = vrátí JSON { sessionID: "..." }
+        // Neúspěch = neodpoví / timeout → login
+        let data = null;
+        try {
+          const res = await fetchWithTimeout(SESSION_WEBHOOK, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ sessionID: stored })
+          });
+          // Pokud server neodpověděl vůbec (abort), skočíme do catch níže
+          data = await res.json().catch(() => null);
+        } catch(_) {
+          data = null; // timeout / síťová chyba / žádná odpověď
+        }
+
+        const sid = (data && typeof data.sessionID === 'string' && data.sessionID.trim()) ? data.sessionID.trim() : '';
+
+        if(sid){
+          // uložit případně rotované ID a jít dál
+          try{ localStorage.setItem('sessionID', sid); }catch(_){}
+          window.location.href = `./homepage.html?sessionID=${encodeURIComponent(sid)}`;
+        }else{
+          // žádná nebo prázdná odpověď → login
+          window.location.href = 'anaby_auth_ui.html';
+        }
+      } finally {
+        // fallback kdyby redirect neproběhl
+        ctaBtn.disabled = false;
+        ctaBtn.textContent = originalText;
+      }
+    }
+
+    ctaBtn.addEventListener('click', checkSessionAndRoute);
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') ctaBtn?.click();
+    });
+  </script>
+</body>
+</html>

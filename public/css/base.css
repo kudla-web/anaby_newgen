@@ -1,0 +1,595 @@
+:root{
+  --bg-900:#0f172a;
+  --panel:#0f172acc;
+  --panel-2:#0b132066;
+  --stroke:rgba(100,116,139,.22);
+  --stroke-strong:rgba(100,116,139,.35);
+  --acc-a:#38bdf8;
+  --acc-b:#818cf8;
+  --ok:#10b981;
+  --bad:#ef4444;
+  --muted:#9aa4b2;
+}
+
+/* Základ rozložení a pozadí */
+body{
+  margin:0; color:#f8fafc;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial;
+  background-color:var(--bg-900);
+  background-image:
+    radial-gradient(1200px 600px at 20% -10%, #1f293760 0, transparent 55%),
+    linear-gradient(rgba(30,41,59,0.5) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(30,41,59,0.5) 1px, transparent 1px);
+  background-size:cover,30px 30px,30px 30px;
+  background-position:center;
+  padding:2rem;           /* horní odsazení řeší <main class="pt-[115px]"> */
+  padding-top:0;
+}
+
+/* Utility / sklo efekt */
+.gradient-text{background:linear-gradient(90deg,var(--acc-a),var(--acc-b));-webkit-background-clip:text;background-clip:text;color:transparent}
+.glass{background:var(--panel); backdrop-filter:blur(10px); border:1px solid var(--stroke); border-radius:14px; transition:.25s}
+.glass-sub{background:var(--panel-2); backdrop-filter:blur(8px); border:1px solid var(--stroke); border-radius:12px}
+.glass:hover{border-color:var(--stroke-strong); box-shadow:0 12px 30px -10px rgba(2,6,23,.5)}
+
+/* Topbar & navigace */
+.topbar{background:rgba(15,23,42,.9); border-bottom:1px solid rgba(51,65,85,.6); backdrop-filter:blur(8px)}
+.nav{display:flex; align-items:center; gap:.25rem}
+.nav a, .nav button{
+  padding:.55rem .8rem; border-radius:10px; border:1px solid transparent;
+  color:#cbd5e1; font-weight:500; font-size:.95rem; cursor:pointer;
+  background:transparent; transition:.18s; white-space:nowrap;
+}
+.nav a:hover, .nav button:hover{background:rgba(100,116,139,.12)}
+.nav .active{
+  background:linear-gradient(90deg,var(--acc-a),var(--acc-b)); color:#fff;
+  box-shadow:0 6px 18px rgba(99,102,241,.25);
+}
+
+/* Tabs */
+.tab-content{display:none}
+.tab-content.active{display:block}
+
+.page-header{
+  display:flex; align-items:center; justify-content:space-between; gap:12px;
+  margin:6px 0 10px;
+}
+.page-title{ display:flex; align-items:center; gap:10px; font-weight:600; font-size:1.1rem; }
+
+/* Právní štítek */
+.legal-chip{
+  display:flex; align-items:center; gap:8px;
+  max-width:min(62ch,100%); padding:6px 10px;
+  font-size:12px; line-height:1.35; color:#cbd5e1;
+  background:rgba(255,255,255,.035);
+  border:1px solid rgba(148,163,184,.14);
+  border-radius:999px; backdrop-filter:saturate(120%) blur(3px);
+}
+.legal-ico{ opacity:.9; font-size:12px }
+.legal-chip a{ color:#9bbcff; text-decoration:underline }
+.legal-chip a:hover{ text-decoration:none; opacity:.9 }
+.legal-x{ margin-left:2px; padding:0 6px; background:transparent; border:0;
+  color:#9bbcff; cursor:pointer; font-size:14px; line-height:1; border-radius:8px; }
+.legal-x:hover{ background:rgba(155,188,255,.08) }
+
+/* Tabulka Podhodnocené */
+.compare-table{
+  width:100%; max-width:2000px; margin:1rem auto;
+  border-collapse:separate; border-spacing:0; border:1px solid var(--stroke);
+  table-layout:fixed;
+}
+.compare-table col.symbol{ width:12% }
+.compare-table col.name{ width:30% }
+.compare-table col.price{ width:10% }
+.compare-table col.change{ width:10% }
+.compare-table col.volume{ width:12% }
+.compare-table col.rating{ width:10% }
+.compare-table col.risk{ width:8% }
+.compare-table col.valuation{ width:8% }
+
+.compare-table thead th{
+  position:sticky; top:0; background:rgba(15,23,42,.92); backdrop-filter:blur(6px);
+  text-align:center; padding:12px 14px; font-weight:600; color:#cbd5e1; white-space:nowrap;
+}
+.compare-table tbody td{
+  background:rgba(2,6,23,.45); padding:12px 14px; border-top:1px solid rgba(51,65,85,.45);
+  text-align:center; vertical-align:middle; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.compare-table tr:nth-child(even) td{background:rgba(2,6,23,.6)}
+.positive{color:#22c55e} .negative{color:#ef4444}
+#akcie-table th.right, #akcie-table td.right{text-align:right}
+#akcie-table th.sortable::after{content:" \2195";opacity:.55;font-weight:normal}
+#akcie-table th.sorted-asc::after{content:" \25B2";opacity:.9}
+#akcie-table th.sorted-desc::after{content:" \25BC";opacity:.9}
+
+.exchip{
+  padding:.45rem .7rem;border:1px solid rgba(100,116,139,.22);
+  border-radius:10px;background:rgba(2,6,23,.35);color:#cbd5e1;font-size:.9rem
+}
+.exchip.active{
+  background:linear-gradient(90deg,var(--acc-a),var(--acc-b));color:#fff;border-color:transparent
+}
+
+.hlp{ display:inline-grid; place-items:center; width:16px; height:16px; margin-left:6px;
+  border:1px solid rgba(148,163,184,.4); border-radius:50%; font-size:11px; color:#cdd7f7; cursor:help; }
+
+.data-footnote{ margin:8px 2px 0; font-size:12px; color:#9aa4b2 }
+
+/* ====== AI Analýza – vzhled ====== */
+.analysis-shell{ width:100%; max-width:min(1200px, 100%); margin:0 auto; padding:0 12px; box-sizing:border-box; }
+.analysis-header{ display:flex; align-items:center; gap:10px; margin:8px 0 14px; }
+.back-btn{
+  display:inline-flex; align-items:center; gap:8px;
+  padding:10px 12px; border-radius:12px;
+  background:linear-gradient(135deg, rgba(56,189,248,.14), rgba(129,140,248,.14));
+  border:1px solid rgba(148,163,184,.25); color:#e6f0ff; font-weight:700; cursor:pointer;
+  transition:.18s;
+}
+.back-btn:hover{ background:linear-gradient(135deg, rgba(56,189,248,.22), rgba(129,140,248,.22)); }
+.symbol-chip{
+  margin-left:2px; padding:8px 12px; border-radius:999px;
+  background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12);
+  font-weight:700; letter-spacing:.02em;
+}
+
+.analysis-card{ padding:18px; }
+.analysis-grid{
+  display:grid; gap:18px; grid-template-columns: 1.7fr 1fr; align-items:start;
+}
+
+.chart-card{ padding:14px; }
+#chart{ height:420px; border-radius:10px; overflow:hidden; border:1px solid rgba(148,163,184,.18) }
+
+.meta-grid{ display:grid; gap:14px; grid-template-columns:1fr 1fr; }
+
+.metric-card{ padding:14px }
+.metric-label{ font-size:12px; text-transform:uppercase; letter-spacing:.08em; color:#cdd5df; margin-bottom:6px; text-align:center; font-weight:800 }
+.metric-value{
+  font-size:26px; text-align:center; font-weight:800;
+  font-family: "Space Grotesk", "Inter", system-ui, sans-serif;
+  font-variant-numeric: lining-nums tabular-nums; letter-spacing:.01em;
+  text-shadow: 0 1px 0 rgba(0,0,0,.35);
+}
+.badge{ display:inline-block; padding:8px 14px; border-radius:999px; font-weight:700; font-size:14px; background:#222; border:1px solid rgba(255,255,255,.12) }
+.risk-low{ background:#1b4627; color:#3ee085; box-shadow:0 0 10px #3ee08599 }
+.risk-medium{ background:#4d4621; color:#ffe066; box-shadow:0 0 10px #ffe06699 }
+.risk-high{ background:#613c1a; color:#ff9f43; box-shadow:0 0 12px #ff9f4399 }
+.risk-extreme{ background:#5c1a1a; color:#ff4d4d; box-shadow:0 0 12px #ff4d4d99 }
+
+.pill-box{ display:block; margin-top:8px; font-size:13px; line-height:1.45; text-align:center; color:#cdd5df }
+.rating-box{
+  height:56px; border-radius:12px; display:flex; align-items:center; justify-content:center;
+  font-weight:800; font-size:22px; background:#222; color:#fff; box-shadow:0 0 14px #0008;
+  font-family: "Space Grotesk", "Inter", system-ui, sans-serif;
+  font-variant-numeric: lining-nums tabular-nums; letter-spacing:.01em;
+}
+.status{ display:block; width:100%; text-align:center; padding:12px 16px; border-radius:12px; font-weight:800; font-size:18px; }
+.nad-silne{ color:#ff4d4d } .nad-mirne{ color:#f4a261 }
+.norma{ color:#ffe066 } .pod-mirne{ color:#3ee085 } .pod-silne{ color:#22c55e }
+
+/* Spodní grid (Pros/Cons vedle sebe, komentář pod nimi) */
+.bottom-grid{ display:grid; grid-template-columns: repeat(12, 1fr); gap:18px; margin-top:18px }
+.panel{ grid-column: span 12; padding:14px }
+@media (min-width: 980px){
+  .panel.pros{ grid-column: span 6; }
+  .panel.cons{ grid-column: span 6; }
+  .panel.news{ grid-column: span 12; }
+}
+
+/* Pros / Cons – styl */
+.pc-head{
+  display:flex; align-items:center; gap:10px; margin-bottom:10px; font-weight:800; font-size:18px;
+}
+.pc-head .ico{
+  display:grid; place-items:center; width:26px; height:26px; border-radius:999px;
+  font-size:16px; font-weight:900;
+}
+.pc-head.ok .ico{ background:rgba(16,185,129,.12); color:var(--ok); border:1px solid rgba(16,185,129,.35) }
+.pc-head.bad .ico{ background:rgba(239,68,68,.12); color:var(--bad); border:1px solid rgba(239,68,68,.35) }
+
+.pc-list{ margin:0; padding:0; list-style:none; }
+.pc-list li{
+  position:relative; padding-left:26px; margin-bottom:8px; line-height:1.45; color:#e7eefc;
+  word-break:break-word;
+}
+.pc-list li::before{
+  content:""; position:absolute; left:0; top:7px; width:12px; height:12px; border-radius:3px;
+}
+.pros .pc-list li::before{ background:var(--ok) }
+.cons .pc-list li::before{ background:var(--bad) }
+.pc-list li.muted{ color:var(--muted) }
+
+/* AI komentář – v boxu, bez horizontálního scrollu */
+#newsList{
+  display:block;
+  background:#0b0c10; border:1px solid #ffffff14; border-radius:12px; padding:12px; margin:0;
+  white-space:pre-wrap;
+  word-break:break-word;
+  overflow-wrap:anywhere;
+  max-height:28vh;
+  overflow-y:auto;
+  overflow-x:hidden;
+  box-sizing:border-box;
+  font-family: inherit; font-size:14px; line-height:1.55;
+}
+
+.chart-disclaimer, .global-disclaimer{ margin-top:8px; font-size:12px; color:#9aa4b2; text-align:center; opacity:.85; }
+
+/* Empty state AI */
+.ai-empty{
+  width:100%; max-width:980px; margin:0 auto; text-align:center; padding:28px;
+  background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.1); border-radius:16px;
+}
+.quick-chips{ display:flex; flex-wrap:wrap; gap:10px; justify-content:center; margin-top:14px }
+.quick-chips button{
+  padding:.55rem .8rem; border-radius:999px; border:1px solid rgba(255,255,255,.18);
+  background:#0d1320; color:#cfe3ff; cursor:pointer; font-weight:600;
+}
+.quick-chips button:hover{ background:#17203a }
+
+/* Responzivita */
+@media (max-width: 980px){
+  .analysis-grid{ grid-template-columns:1fr; }
+  #chart{ height:360px; }
+  .meta-grid{ grid-template-columns:1fr 1fr; }
+}
+@media (max-width: 640px){
+  .meta-grid{ grid-template-columns:1fr; }
+  .page-title{ font-size:1rem }
+}
+/* === Podhodnocené – card vzhled (stejný jako homepage-new.html) === */
+.controls-bar{ display:flex; flex-wrap:wrap; gap:.5rem; align-items:center }
+.sort-pills{ display:flex; flex-wrap:wrap; gap:.4rem; }
+.sort-pill{
+  padding:.45rem .7rem; border-radius:999px;
+  border:1px solid rgba(100,116,139,.22);
+  background:rgba(2,6,23,.35); color:#cbd5e1;
+  font-size:.85rem; cursor:pointer;
+}
+.sort-pill.active{
+  background:linear-gradient(90deg,var(--acc-a),var(--acc-b));
+  color:#fff; border-color:transparent;
+}
+
+.card-list{ display:flex; flex-direction:column; gap:16px; }
+.stock-card{
+  background:rgba(2,6,23,.6);
+  border:1px solid rgba(148,163,184,.18);
+  border-radius:16px; padding:16px 18px;
+  display:grid; gap:14px;
+  grid-template-columns:1.3fr 2fr;
+  align-items:center; transition:.2s; cursor:pointer;
+}
+.stock-card:hover{
+  border-color:rgba(148,163,184,.35);
+  transform:translateY(-1px);
+  box-shadow:0 10px 28px rgba(0,0,0,.25);
+}
+.stock-left .sym{ font-weight:900; font-size:1.25rem; letter-spacing:.02em }
+.stock-left .name{ font-size:.95rem; color:#cbd5e1; margin-top:2px }
+
+.rating-pill{
+  display:inline-flex; align-items:center; justify-content:center;
+  margin-left:.5rem; min-width:34px; height:26px; padding:0 8px;
+  border-radius:8px; font-weight:800; font-size:.9rem;
+  border:1px solid #ffffff22; font-variant-numeric: tabular-nums;
+}
+.rating-good{ background:rgba(16,185,129,.12); color:#34d399; border-color:#34d39966 }
+.rating-mid { background:rgba(234,179,8,.12); color:#facc15; border-color:#facc1566 }
+.rating-bad { background:rgba(239,68,68,.12); color:#f87171; border-color:#f8717166 }
+
+.stock-right{ display:grid; gap:10px; grid-template-columns: repeat(5, minmax(0,1fr)); }
+.m-block{ display:flex; flex-direction:column; gap:2px; text-align:left }
+.m-label{ font-size:.78rem; color:#9aa4b2 }
+.m-value{ font-weight:800; font-size:1.15rem; font-family:"Space Grotesk","Inter",system-ui,sans-serif; font-variant-numeric: tabular-nums; }
+
+.up{ color:#22c55e } .down{ color:#ef4444 }
+.risk-low-tag{ color:#34d399 } .risk-mid-tag{ color:#facc15 } .risk-high-tag{ color:#f97316 }
+
+@media (max-width:1024px){
+  .stock-card{ grid-template-columns:1fr }
+  .stock-right{ grid-template-columns: repeat(2,1fr) }
+}
+@media (max-width:520px){ .stock-right{ grid-template-columns:1fr } }
+/* === EXCHANGE CHIP BUTTONS (moderní vzhled) === */
+.segments{
+  display:inline-flex; align-items:center; gap:8px;
+  padding:6px; border-radius:999px;
+  background:rgba(255,255,255,.03);
+  border:1px solid rgba(148,163,184,.14);
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,.12);
+}
+
+.exchip{
+  appearance:none; border:1px solid rgba(148,163,184,.18);
+  background:rgba(2,6,23,.55); color:#cfe3ff;
+  padding:.5rem .9rem; border-radius:999px;
+  font-weight:700; font-size:.9rem; letter-spacing:.01em;
+  transition:transform .18s, background .18s, border-color .18s, box-shadow .18s, color .18s;
+  cursor:pointer; user-select:none;
+}
+.exchip:hover{
+  background:rgba(2,6,23,.8);
+  border-color:rgba(148,163,184,.35);
+  transform:translateY(-1px);
+}
+.exchip:focus-visible{
+  outline:none;
+  box-shadow:0 0 0 2px rgba(129,140,248,.65), 0 0 0 4px rgba(2,6,23,.7);
+}
+.exchip.active,
+.exchip[aria-pressed="true"]{
+  background:linear-gradient(90deg,var(--acc-a),var(--acc-b));
+  color:#fff; border-color:transparent;
+  box-shadow:0 8px 24px rgba(99,102,241,.25);
+}
+/* ==== Sticky search + hint dropdown ==== */
+.search-sticky{
+  position: sticky;
+  top: 82px; /* pod topbarem; máš main s pt-[115px], takže 82–90px je bezpečné */
+  z-index: 30;
+  padding: 10px 12px;
+  margin-bottom: 12px;
+  border-radius: 14px;
+}
+
+.search-wrap{
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.search-ico{
+  position: absolute;
+  left: 10px; top: 50%; transform: translateY(-50%);
+  color: #9aa4b2; opacity: .9; pointer-events: none;
+}
+.search-input{
+  padding-left: 32px !important;
+}
+.search-clear{
+  position: absolute; right: 6px; top: 50%; transform: translateY(-50%);
+  background: transparent; border: 0; color: #cbd5e1; opacity:.8; cursor: pointer;
+  width: 28px; height: 28px; border-radius: 6px;
+}
+.search-clear:hover{ background: rgba(148,163,184,.12); }
+
+/* hint dropdown */
+.search-hints{
+  position: absolute; left: 0; right: 0; top: calc(100% + 6px);
+  background: rgba(2,6,23,.95);
+  border: 1px solid rgba(148,163,184,.18);
+  border-radius: 12px;
+  box-shadow: 0 18px 40px rgba(0,0,0,.4);
+  padding: 10px;
+}
+.search-hints.hidden{ display:none; }
+
+.hint-section{ padding: 6px 6px; }
+.hint-title{ font-size: 12px; color:#9aa4b2; text-transform: uppercase; letter-spacing: .08em; margin-bottom: 6px; }
+.hint-chips{ display:flex; flex-wrap:wrap; gap:8px; }
+.hint-chips button{
+  padding:.35rem .65rem; border-radius: 999px;
+  border:1px solid rgba(148,163,184,.18);
+  background:#0d1320; color:#cfe3ff; cursor:pointer; font-weight:600; font-size:.85rem;
+}
+.hint-chips button:hover{ background:#17203a; }
+.hint-status{ color:#cbd5e1; font-size:.92rem; }
+
+/* z-index nad seznamem karet */
+.card-list{ position: relative; z-index: 1; }
+/* === Podhodnocené – vylepšené karty/řádky === */
+.list-rows{ display:flex; flex-direction:column; gap:0; }
+
+/* jeden řádek */
+.stock-card{
+  position: relative;
+  background: transparent;
+  border: 1px solid rgba(148,163,184,.10);
+  border-left-color: rgba(148,163,184,.18);
+  border-right-color: rgba(148,163,184,.18);
+  border-radius: 0;
+  padding: 14px 14px;
+  display: grid;
+  grid-template-columns: minmax(180px, 1.2fr) minmax(360px, 2fr) auto;
+  gap: 14px;
+  align-items: center;
+  cursor: pointer;
+  transition: background .18s, transform .12s, border-color .18s;
+}
+.stock-card:first-child{ border-top-left-radius: 14px; border-top-right-radius: 14px; }
+.stock-card:last-child{ border-bottom-left-radius: 14px; border-bottom-right-radius: 14px; }
+.stock-card + .stock-card{ border-top: 0; }
+.stock-card:hover{
+  background: rgba(2,6,23,.45);
+  border-color: rgba(148,163,184,.22);
+  transform: translateY(-1px);
+}
+
+/* buňky */
+.cell.left{}
+.cell.metrics{ display:grid; grid-template-columns: repeat(5, minmax(0,1fr)); gap: 10px; }
+.cell.right{ display:flex; align-items:center; justify-content:flex-end; }
+
+@media (max-width: 1080px){
+  .stock-card{ grid-template-columns: 1fr auto; }
+  .cell.metrics{ grid-column: 1 / -1; grid-template-columns: repeat(2, minmax(0,1fr)); }
+}
+@media (max-width: 540px){
+  .cell.metrics{ grid-template-columns: 1fr; }
+}
+
+/* levá část */
+.symbol-row{ display:flex; align-items:center; gap:8px; }
+.sym{ font-weight:900; font-size:1.15rem; letter-spacing:.02em }
+.name{ font-size:.95rem; color:#cbd5e1; margin-top:2px }
+
+/* skóre pilulka */
+.score-badge{
+  display:inline-flex; align-items:center; justify-content:center;
+  min-width: 34px; height: 26px; padding:0 8px;
+  border-radius: 8px; font-weight:800; font-size:.9rem;
+  border:1px solid #ffffff22; font-variant-numeric: tabular-nums;
+}
+.score-good{ background:rgba(16,185,129,.12); color:#34d399; border-color:#34d39966 }
+.score-mid { background:rgba(234,179,8,.12); color:#facc15; border-color:#facc1566 }
+.score-bad { background:rgba(239,68,68,.12); color:#f87171; border-color:#f8717166 }
+
+/* metriky uprostřed */
+.m-block{ display:flex; flex-direction:column; gap:2px; text-align:left }
+.m-label{ font-size:.78rem; color:#9aa4b2 }
+.m-value{ font-weight:800; font-size:1.05rem; font-family:"Space Grotesk","Inter",system-ui,sans-serif; font-variant-numeric: tabular-nums; }
+.up{ color:#22c55e } .down{ color:#ef4444 }
+
+/* riziko pilulka */
+.risk-pill{
+  display:inline-block; padding:4px 8px; border-radius:999px; font-weight:800; font-size:.85rem;
+  border:1px solid rgba(255,255,255,.12);
+}
+.risk-low{ background:#0c2c1b; color:#34d399; border-color:#34d39966 }
+.risk-mid{ background:#3a3110; color:#facc15; border-color:#facc1566 }
+.risk-high{ background:#3b2412; color:#f97316; border-color:#f9731666 }
+.risk-extreme{ background:#3a1313; color:#f87171; border-color:#f8717166 }
+
+/* chevron */
+.chev{
+  width:20px; height:20px; opacity:.7; transition: transform .18s, opacity .18s;
+}
+.stock-card:hover .chev{ transform: translateX(2px); opacity: .95; }
+/* === Stocks list – „reimagined“ === */
+.list-cards{ display:flex; flex-direction:column; gap:12px; }
+
+/* karta/řádek */
+.row-card{
+  background:#0f1421;
+  border:1px solid rgba(148,163,184,.14);
+  border-radius:16px;
+  padding:18px 20px;
+  display:flex; align-items:center; justify-content:space-between;
+  transition: background .22s, border-color .22s, box-shadow .22s, transform .12s;
+  cursor:pointer;
+}
+.row-card:hover{
+  background:#141a28;
+  border-color:rgba(148,163,184,.28);
+  box-shadow:0 18px 50px rgba(8,12,24,.35);
+}
+.row-left{ display:flex; align-items:center; gap:14px; min-width:0; flex:1; }
+.row-symbol{ font-weight:900; font-size:1.55rem; letter-spacing:.02em; color:#fff; }
+.row-name{ color:#c7cfdb; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.row-score{
+  display:inline-flex; align-items:center; justify-content:center;
+  min-width:38px; height:28px; padding:0 10px; border-radius:999px;
+  background:linear-gradient(90deg, rgba(16,185,129,.18), rgba(56,189,248,.18));
+  border:1px solid rgba(16,185,129,.35);
+  color:#34d399; font-weight:800; font-variant-numeric: tabular-nums;
+}
+
+/* pravé metriky */
+.row-right{ display:flex; align-items:center; gap:28px; margin-left:16px; }
+.m-box{ text-align:right }
+.m-label{ font-size:12px; color:#8e9ab0; margin-bottom:4px }
+.m-value{ font-size:1.05rem; font-weight:700; color:#f8fbff; font-variant-numeric: tabular-nums; }
+.m-value.up{ color:#22c55e } .m-value.down{ color:#ef4444 }
+.m-value-ex{ color:#7dd3fc; } /* exchange */
+
+.risk-tag{
+  display:inline-block; padding:6px 10px; border-radius:999px; font-weight:700; font-size:.9rem;
+  border:1px solid rgba(255,255,255,.12);
+}
+.risk-mid{ background:rgba(245,158,11,.12); color:#fbbf24; border-color:#fbbf2460 }
+.risk-high{ background:rgba(249,115,22,.12); color:#fb923c; border-color:#fb923c60 }
+.risk-low{ background:rgba(16,185,129,.12); color:#34d399; border-color:#34d39960 }
+.risk-extreme{ background:rgba(248,113,113,.12); color:#f87171; border-color:#f8717160 }
+
+/* chevron */
+.row-chevron{ color:#6b7280; transition: transform .2s, color .2s; }
+.row-card:hover .row-chevron{ color:#67e8f9; transform: translateX(4px); }
+
+/* responzivita */
+@media (max-width: 1180px){
+  .row-right{ gap:20px }
+}
+@media (max-width: 980px){
+  .row-card{ flex-direction:column; align-items:stretch; gap:14px }
+  .row-right{ justify-content:space-between; }
+}
+@media (max-width: 560px){
+  .row-right{ flex-wrap:wrap; gap:16px }
+  .m-box{ width:calc(50% - 8px); text-align:left }
+  .m-box:last-child{ text-align:right; width:auto }
+}
+/* === FIX: zarovnání jako tabulka (stejné sloupce v každém řádku) === */
+.row-right{
+  display: grid;
+  /* Cena | Změna | Rizikovost | Tržní kap. | Burza | ›  */
+  grid-template-columns: 140px 140px 160px 120px 110px 24px;
+  align-items: center;
+  column-gap: 28px;
+  margin-left: 16px;
+}
+.row-chevron{ grid-column: -1; justify-self: end; }  /* šipka vždy poslední */
+
+/* širší zkrácené rozlišení */
+@media (max-width: 1180px){
+  .row-right{
+    grid-template-columns: 120px 120px 150px 100px 100px 20px;
+    column-gap: 20px;
+  }
+}
+
+/* mobilní – přepnutí do 2 sloupců (čitelné skládání) */
+@media (max-width: 980px){
+  .row-card{ flex-direction: column; align-items: stretch; gap: 14px; }
+  .row-right{
+    grid-template-columns: 1fr 1fr;
+    column-gap: 16px;
+    row-gap: 10px;
+  }
+  .m-box{ text-align: left; }
+  .row-chevron{ grid-column: 2; justify-self: end; }
+}
+/* Změna: držet šipku + procenta na jednom řádku */
+.m-value.change{
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  line-height: 1;
+}
+.m-value.change svg{
+  width: 16px;
+  height: 16px;
+  flex: 0 0 auto;
+}
+
+/* === Grid šířky + fix pro "Změna" === */
+.row-right{
+  display: grid;
+  /* Cena | Změna | Rizikovost | Tržní kap. | Burza | › */
+  grid-template-columns: 150px 170px 160px 130px 120px 24px;
+  align-items: center;
+  column-gap: 28px;
+  margin-left: 16px;
+}
+.row-chevron{ grid-column: -1; justify-self: end; }
+
+/* Sloupec 2 = Změna: vlevo, beze zalomení, ikona + číslo drží u sebe */
+.row-right .m-box:nth-child(2){ text-align: left; }
+.row-right .m-box:nth-child(2) .m-value{
+  display:flex; align-items:center; gap:8px; white-space:nowrap;
+}
+
+/* užší šířky */
+@media (max-width: 1180px){
+  .row-right{
+    grid-template-columns: 130px 150px 150px 110px 110px 20px;
+    column-gap: 20px;
+  }
+}
+@media (max-width: 980px){
+  .row-card{ flex-direction: column; align-items: stretch; gap: 14px; }
+  .row-right{ grid-template-columns: 1fr 1fr; column-gap: 16px; row-gap: 10px; }
+  .row-chevron{ grid-column: 2; justify-self: end; }
+}

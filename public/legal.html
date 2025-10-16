@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Právní dokumenty – Anaby / Investure</title>
+  <meta name="description" content="Obchodní podmínky, zásady ochrany osobních údajů a cookies pro Anaby/Investure." />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0b1220; --panel:#0f1a2c; --txt:#e5e7eb; --muted:#9ca3af;
+      --border:#1f2a44; --g1:#60a5fa; --g2:#a78bfa; --accent:#7aa2ff;
+    }
+    *{box-sizing:border-box}
+    body{margin:0; font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;
+      color:var(--txt); background:
+      radial-gradient(1200px 600px at 10% -10%, #1b2a47, transparent),
+      radial-gradient(900px 500px at 90% 0%, #1a1738, transparent), var(--bg);
+      line-height:1.6}
+    a{color:var(--accent); text-decoration:none}
+    a:hover{text-decoration:underline}
+    header{position:sticky; top:0; z-index:10; backdrop-filter:blur(8px);
+      background:rgba(10,16,28,.6); border-bottom:1px solid var(--border)}
+    .wrap{max-width:1000px; margin:0 auto; padding:0 20px}
+    .row{display:flex; align-items:center; justify-content:space-between; gap:16px; padding:14px 0}
+    .brand{display:flex; align-items:center; gap:10px; font-weight:800; letter-spacing:.2px}
+    .badge{width:28px; height:28px; border-radius:9px; display:grid; place-items:center;
+      background:linear-gradient(135deg,var(--g1),var(--g2)); color:#0b1220; font-weight:900}
+    .subtle{color:var(--muted); font-size:.95rem}
+    main{padding:42px 0 80px}
+    h1{font-size:2.2rem; line-height:1.2; margin:6px 0 8px}
+    h2{font-size:1.4rem; margin:28px 0 10px}
+    h3{font-size:1.05rem; margin:18px 0 8px}
+    .panel{background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.02));
+      border:1px solid var(--border); border-radius:16px; padding:22px; box-shadow:0 8px 40px rgba(0,0,0,.25)}
+    .tabs{display:flex; gap:8px; flex-wrap:wrap; margin:18px 0 26px}
+    .tab{padding:10px 14px; border:1px solid var(--border); border-radius:999px; cursor:pointer; background:#0d172a;color: #ffffff;}
+    .tab[aria-selected="true"]{background:linear-gradient(135deg,rgba(96,165,250,.15),rgba(167,139,250,.15)); border-color:#2b3c5e}
+    .two-col{display:grid; grid-template-columns:280px 1fr; gap:22px}
+    @media (max-width:940px){.two-col{grid-template-columns:1fr}}
+    nav.toc{position:sticky; top:76px}
+    nav.toc a{display:block; padding:8px 10px; border-radius:10px; color:var(--muted)}
+    nav.toc a:hover{background:#0f1a2c; color:var(--txt)}
+    ul{margin:8px 0 8px 20px}
+    .note{font-size:.92rem; color:#cbd5e1; background:#0f1a2c; border:1px dashed #253753; padding:12px 14px; border-radius:12px}
+    .small{font-size:.95rem}
+    footer{margin:40px 0 0; padding:24px 0 48px; border-top:1px solid var(--border); color:var(--muted)}
+    code{background:#0f1a2c; padding:2px 6px; border-radius:6px; border:1px solid #1f2a44}
+  </style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="row">
+      <div class="brand"><div class="badge">▲</div><div>ANABY.AI / INVESTURE</div></div>
+      <div class="subtle">Právní dokumenty · Verze 1.2 · Aktualizováno: <span id="updated">2025-09-21</span></div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="panel">
+    <h1>Obchodní podmínky, Ochrana soukromí &amp; Cookies</h1>
+    <p class="subtle" style="margin:0">
+      Tato stránka sjednocuje <strong>Obchodní podmínky (Terms of Service)</strong>, <strong>Zásady ochrany osobních údajů (Privacy Policy)</strong> a <strong>Cookies</strong>
+      pro platformu <em>Anaby / Investure</em>.
+    </p>
+
+    <div class="tabs" role="tablist" aria-label="Dokumenty">
+      <button class="tab" role="tab" aria-selected="true" aria-controls="tab-tos" id="tabbtn-tos">Obchodní podmínky</button>
+      <button class="tab" role="tab" aria-selected="false" aria-controls="tab-privacy" id="tabbtn-privacy">Ochrana osobních údajů</button>
+      <button class="tab" role="tab" aria-selected="false" aria-controls="tab-cookies" id="tabbtn-cookies">Cookies</button>
+    </div>
+
+    <!-- TERMS -->
+    <section id="tab-tos" role="tabpanel" aria-labelledby="tabbtn-tos">
+      <div class="two-col">
+        <nav class="toc panel" aria-label="Obsah – Terms">
+          <strong>Obsah</strong>
+          <a href="#tos-def">Definice</a>
+          <a href="#tos-1">1. Kdo jsme a co děláme</a>
+          <a href="#tos-2">2. Přístup přes klíč (partner)</a>
+          <a href="#tos-3">3. Věk, registrace a účet</a>
+          <a href="#tos-4">4. Licence a IP</a>
+          <a href="#tos-5">5. Zdroje dat & třetí strany</a>
+          <a href="#tos-6">6. Finanční & technický disclaimer</a>
+          <a href="#tos-7">7. Dostupnost, podpora a změny</a>
+          <a href="#tos-8">8. Zakázané použití</a>
+          <a href="#tos-9">9. Odpovědnost a limity</a>
+          <a href="#tos-10">10. Ukončení a pozastavení</a>
+          <a href="#tos-11">11. Oznamování změn</a>
+          <a href="#tos-12">12. Právo a řešení sporů</a>
+          <a href="#tos-13">13. Kontakt</a>
+        </nav>
+
+        <div>
+          <h2 id="tos-def">Definice</h2>
+          <p class="small">
+            <strong>„Služba/Aplikace“</strong> znamená Anaby/Investure; <strong>„Uživatel“</strong> jste vy; <strong>„Partner“</strong> je subjekt, který prodává kurz a poskytuje přístupové klíče;
+            <strong>„Klíč“</strong> je kód aktivující účet; <strong>„Obsah“</strong> jsou analýzy, metriky, texty, UI a software aplikace; <strong>„Zpracovatel“</strong> je například Supabase.
+          </p>
+
+          <h2 id="tos-1">1. Kdo jsme a co děláme</h2>
+          <p>
+            Anaby / Investure je online platforma poskytující edukativní a informační nástroje k akciovým trhům s využitím AI.
+            <strong>Neprodáváme vstupy do kurzu</strong> – ty poskytuje náš partnerský klient ve svém vlastním prodejním procesu.
+          </p>
+
+          <h2 id="tos-2">2. Přístup přes klíč (partner)</h2>
+          <p>
+            Přístup do aplikace je umožněn po zadání platného klíče získaného z kurzu Partnera. <strong>Platby, refundace, reklamace a fakturace</strong>
+            se řeší výhradně s Partnerem. My nejsme stranou tohoto prodeje ani ručitelem kvality kurzu.
+          </p>
+
+          <h2 id="tos-3">3. Věk, registrace a účet</h2>
+          <ul>
+            <li>Služba je určena osobám <strong>18+</strong>.</li>
+            <li>K registraci vyžadujeme pouze <strong>e-mail</strong> a <strong>heslo</strong> (uložené bezpečně ve formě hash).</li>
+            <li>Účet je osobní, nepřenosný. Jste odpovědní za jeho zabezpečení a jednání pod účtem.</li>
+          </ul>
+
+          <h2 id="tos-4">4. Licence a IP</h2>
+          <p>
+            Udělujeme vám osobní, nepřevoditelné a nevýhradní oprávnění používat aplikaci pro <strong>edukativní a informační účely</strong>.
+            Nevzniká vám právo na kopírování, veřejnou redistribuci, scraping či reverzní inženýrství Obsahu nebo software.
+            Veškerá práva k Obsahu zůstávají nám nebo třetím stranám.
+          </p>
+
+          <h2 id="tos-5">5. Zdroje dat &amp; třetí strany</h2>
+          <p>
+            Služba může zobrazovat informace ze zdrojů třetích stran (např. poskytovatelé finančních dat/API). Přesnost, úplnost ani dostupnost těchto dat <strong>negarantujeme</strong>.
+            V případě konfliktu platí <em>licenční podmínky</em> a <em>omezení redistribuce</em> těchto poskytovatelů.
+          </p>
+
+          <h2 id="tos-6">6. Finanční &amp; technický disclaimer</h2>
+          <div class="note">
+            <strong>Nejedná se o investiční poradenství.</strong> Výstupy mají pouze informativní a vzdělávací charakter.
+            Minulá výkonnost není zárukou budoucích výsledků. Data z externích zdrojů <strong>nemusejí být vždy přesná, aktuální ani kompletní</strong>.
+            Systém je <strong>ve vývoji (beta)</strong> a může obsahovat chyby. Pro nahlášení problémů pište na
+            <a href="mailto:team.investure@gmail.com">team.investure@gmail.com</a>.
+          </div>
+
+          <h2 id="tos-7">7. Dostupnost, podpora a změny</h2>
+          <ul>
+            <li>Neposkytujeme záruku nepřetržité dostupnosti ani konkrétní SLA.</li>
+            <li>Podporu poskytujeme e-mailem: <a href="mailto:team.investure@gmail.com">team.investure@gmail.com</a>.</li>
+            <li>Funkce se vyvíjejí; můžeme je měnit nebo dočasně omezit.</li>
+          </ul>
+
+          <h2 id="tos-8">8. Zakázané použití</h2>
+          <ul>
+            <li>Scraping, masová extrakce a redistribuce dat bez písemného souhlasu.</li>
+            <li>Obcházení přístupových mechanismů, sdílení účtu, zneužití API.</li>
+            <li>Nelegální činnosti nebo porušování práv třetích stran (včetně licencí poskytovatelů dat).</li>
+          </ul>
+
+          <h2 id="tos-9">9. Odpovědnost a limity</h2>
+          <p class="small">
+            V nejvyšším rozsahu dovoleném právem neneseme odpovědnost za přímé, nepřímé, nahodilé či následné škody, ztrátu zisku,
+            dat nebo reputace vzniklé použitím Služby nebo spoléháním na Obsah. Uživatel provádí investiční rozhodnutí na vlastní odpovědnost
+            a měl by si informace ověřit z nezávislých zdrojů.
+          </p>
+
+          <h2 id="tos-10">10. Ukončení a pozastavení</h2>
+          <p>Můžeme účet pozastavit nebo ukončit při porušení těchto podmínek nebo při bezpečnostním riziku.</p>
+
+          <h2 id="tos-11">11. Oznamování změn</h2>
+          <p>Významné změny podmínek oznámíme v aplikaci nebo e-mailem. Pokračováním v používání souhlasíte s aktuálním zněním.</p>
+
+          <h2 id="tos-12">12. Právo a řešení sporů</h2>
+          <p>Tyto podmínky se řídí právem České republiky. Spory se budeme snažit řešit smírně; pokud to nepůjde, příslušné jsou soudy ČR.</p>
+
+          <h2 id="tos-13">13. Kontakt</h2>
+          <p>Dotazy k podmínkám: <a href="mailto:team.investure@gmail.com">team.investure@gmail.com</a>.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRIVACY -->
+    <section id="tab-privacy" role="tabpanel" aria-labelledby="tabbtn-privacy" hidden>
+      <div class="two-col">
+        <nav class="toc panel" aria-label="Obsah – Privacy">
+          <strong>Obsah</strong>
+          <a href="#pr-1">1. Správce a kontakty</a>
+          <a href="#pr-2">2. Kategorie údajů</a>
+          <a href="#pr-3">3. Účely a právní základy</a>
+          <a href="#pr-4">4. Doba uchování</a>
+          <a href="#pr-5">5. Zpracovatelé / příjemci</a>
+          <a href="#pr-6">6. Přenosy mimo EHP</a>
+          <a href="#pr-7">7. Bezpečnost & incidenty</a>
+          <a href="#pr-8">8. Vaše práva</a>
+          <a href="#pr-9">9. Stížnost k ÚOOÚ</a>
+          <a href="#pr-10">10. Změny zásad</a>
+        </nav>
+
+        <div>
+          <h2 id="pr-1">1. Správce a kontakty</h2>
+          <p>
+            Správcem osobních údajů je <strong>Jan Kudelňák</strong> (Anaby / Investure),
+            e-mail: <a href="mailto:team.investure@gmail.com">team.investure@gmail.com</a>.
+            <!-- Volitelné: doplň IČO/sídlo, pokud máš -->
+          </p>
+
+          <h2 id="pr-2">2. Kategorie údajů</h2>
+          <ul>
+            <li><strong>Identifikační a kontaktní:</strong> e-mail.</li>
+            <li><strong>Autentizační:</strong> heslo uložené <em>výhradně ve formě kryptografického hashe</em>; nezbytné session tokeny/cookies.</li>
+            <li><strong>Technické/provozní logy:</strong> události nutné pro bezpečnost a stabilitu (např. chyby, audit přihlášení).</li>
+          </ul>
+          <p>Nepoužíváme Google Analytics, Meta Pixel ani jiné marketingové trackery.</p>
+
+          <h2 id="pr-3">3. Účely a právní základy</h2>
+          <ul>
+            <li><strong>Poskytnutí služby a správa účtu</strong> – smluvní plnění (čl. 6/1/b GDPR).</li>
+            <li><strong>Bezpečnost, prevence zneužití, logování</strong> – oprávněný zájem (čl. 6/1/f).</li>
+            <li><strong>Provozní komunikace (servisní e-maily)</strong> – oprávněný zájem / smluvní plnění.</li>
+          </ul>
+
+          <h2 id="pr-4">4. Doba uchování</h2>
+          <p>
+            Údaje uchováváme po dobu <strong>aktivního členství/účtu</strong>. Po ukončení provedeme smazání nebo anonymizaci
+            v přiměřené lhůtě, není-li vyžadováno delší uchování (např. zálohy/logy pro bezpečnost po omezenou dobu).
+          </p>
+
+          <h2 id="pr-5">5. Zpracovatelé / příjemci</h2>
+          <ul>
+            <li><strong>Supabase</strong> – databáze/hosting dat uživatelů.</li>
+            <li><strong>E-mailová infrastruktura</strong> (např. Google Workspace / SMTP) – doručování servisní komunikace.</li>
+            <li><strong>Nástroje provozu/CI</strong> (např. n8n, hosting frontendu) – provoz workflow a aplikace.</li>
+          </ul>
+          <p>Se zpracovateli máme uzavřené odpovídající smlouvy o zpracování. Údaje <strong>neprodáváme</strong>.</p>
+
+          <h2 id="pr-6">6. Přenosy mimo EHP</h2>
+          <p>
+            Někteří zpracovatelé mohou sídlit mimo EHP. V takovém případě využíváme standardní smluvní doložky (SCC) nebo jiné
+            vhodné záruky dle GDPR. Detaily vám sdělíme na vyžádání.
+          </p>
+
+          <h2 id="pr-7">7. Bezpečnost &amp; incidenty</h2>
+          <ul>
+            <li>Hesla ukládáme ve formě hash s funkcí určenou pro ukládání hesel (např. Argon2/bcrypt).</li>
+            <li>Přenos probíhá přes šifrované spojení (HTTPS). Přístupy jsou omezené a auditované.</li>
+            <li>Při bezpečnostním incidentu vyhodnotíme dopad a pokud bude třeba, informujeme vás i dozorový úřad dle GDPR.</li>
+          </ul>
+
+          <h2 id="pr-8">8. Vaše práva</h2>
+          <p>Máte právo na přístup, opravu, výmaz, omezení, námitku a přenositelnost. Žádosti posílejte na <a href="mailto:team.investure@gmail.com">team.investure@gmail.com</a>.</p>
+
+          <h2 id="pr-9">9. Stížnost k ÚOOÚ</h2>
+          <p>Můžete se obrátit na <a href="https://www.uoou.cz/" target="_blank" rel="noopener">Úřad pro ochranu osobních údajů</a>, pokud se domníváte, že porušujeme GDPR.</p>
+
+          <h2 id="pr-10">10. Změny zásad</h2>
+          <p>Tyto zásady můžeme aktualizovat; významné změny oznámíme v aplikaci nebo e-mailem. Datum poslední aktualizace je uveden nahoře.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- COOKIES -->
+    <section id="tab-cookies" role="tabpanel" aria-labelledby="tabbtn-cookies" hidden>
+      <div class="two-col">
+        <nav class="toc panel" aria-label="Obsah – Cookies">
+          <strong>Obsah</strong>
+          <a href="#ck-1">1. Co jsou cookies</a>
+          <a href="#ck-2">2. Jaké cookies používáme</a>
+          <a href="#ck-3">3. Správa cookies</a>
+          <a href="#ck-4">4. Kontakt</a>
+        </nav>
+        <div>
+          <h2 id="ck-1">1. Co jsou cookies</h2>
+          <p>Cookies jsou malé soubory, které si web ukládá do prohlížeče. U nás slouží pouze k přihlášení a bezpečnému provozu.</p>
+
+          <h2 id="ck-2">2. Jaké cookies používáme</h2>
+          <ul>
+            <li><strong>Nezbytné (strictly necessary)</strong> – autentizační a session cookies pro přihlášení, autorizaci API a ochranu proti zneužití.</li>
+          </ul>
+          <p><strong>Nepoužíváme</strong> analytické, marketingové ani profilovací cookies (např. Google Analytics, Meta Pixel).</p>
+
+          <h2 id="ck-3">3. Správa cookies</h2>
+          <p>Nezbytné cookies můžete omezit v prohlížeči, ale aplikace pak nemusí fungovat. Většina prohlížečů umožňuje cookies mazat/blokovat.</p>
+
+          <h2 id="ck-4">4. Kontakt</h2>
+          <p>Dotazy ke cookies: <a href="mailto:team.investure@gmail.com">team.investure@gmail.com</a>.</p>
+        </div>
+      </div>
+    </section>
+  </section>
+
+  <footer class="wrap">
+    <div>
+      © 2025 Anaby / Investure — Edukační nástroj; nejde o investiční poradenství. Data mohou být nepřesná či neaktuální. Beta verze.
+      Nahlášení chyb: <a href="mailto:team.investure@gmail.com">team.investure@gmail.com</a>.
+    </div>
+  </footer>
+</main>
+
+<script>
+  // Přepínání tabů
+  const tabs = [
+    {btn:'tabbtn-tos', panel:'tab-tos'},
+    {btn:'tabbtn-privacy', panel:'tab-privacy'},
+    {btn:'tabbtn-cookies', panel:'tab-cookies'},
+  ];
+  tabs.forEach((t,i)=>{
+    const b=document.getElementById(t.btn);
+    const p=document.getElementById(t.panel);
+    b.addEventListener('click', ()=>{
+      tabs.forEach((x,j)=>{
+        const bb=document.getElementById(x.btn);
+        const pp=document.getElementById(x.panel);
+        bb.setAttribute('aria-selected', String(i===j));
+        pp.hidden = !(i===j);
+      });
+      p.scrollIntoView({behavior:'smooth', block:'start'});
+    });
+  });
+</script>
+</body>
+</html>
