@@ -155,7 +155,7 @@
         if(sid){
           // uložit případně rotované ID a jít dál
           try{ localStorage.setItem('sessionID', sid); }catch(_){}
-          window.location.href = `./homepage.html?sessionID=${encodeURIComponent(sid)}`;
+          window.location.href = `/homepage.html?sessionID=${encodeURIComponent(sid)}`;
         }else{
           // žádná nebo prázdná odpověď → login
           window.location.href = 'anaby_auth_ui.html';

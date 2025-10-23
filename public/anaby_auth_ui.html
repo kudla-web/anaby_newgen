@@ -440,7 +440,7 @@
           loginMsg.style.color = 'var(--ok)';
           loginMsg.textContent = 'Přihlášeno… přesměrovávám';
           // ponechávám redirect s query paramem kvůli kompatibilitě s tvým homepage (můžeš to vyhodit)
-          window.location.href = `/homepage.html?sessionID=${encodeURIComponent(sessionId)}`;
+          window.location.href = `./homepage.html?sessionID=${encodeURIComponent(sessionId)}`;
         }else{
           loginMsg.style.color = 'var(--error)';
           loginMsg.textContent = result.message || 'Špatný e-mail nebo heslo.';
